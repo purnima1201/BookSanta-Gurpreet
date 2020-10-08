@@ -8,9 +8,10 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    ScrollView} from 'react-native';
+    ScrollView,
+  Image} from 'react-native';
 
-import SantaAnimation from '../components/SantaClaus.js';
+
 import db from '../config';
 import firebase from 'firebase';
 
@@ -45,11 +46,7 @@ export default class WelcomeScreen extends Component{
          address:this.state.address
        })
        return  Alert.alert(
-            'User Added Successfully',
-            '',
-            [
-              {text: 'OK', onPress: () => this.setState({"isModalVisible" : false})},
-            ]
+            'User Added Successfully'
         );
      })
      .catch((error)=> {
@@ -64,7 +61,7 @@ export default class WelcomeScreen extends Component{
 userLogin = (emailId, password)=>{
    firebase.auth().signInWithEmailAndPassword(emailId, password)
    .then(()=>{
-     this.props.navigation.navigate('DonateBooks')
+      this.props.navigation.navigate('DonateBooks')
    })
    .catch((error)=> {
      var errorCode = error.code;
@@ -76,7 +73,7 @@ userLogin = (emailId, password)=>{
 showModal = ()=>{
   return(
   <Modal
-    animationType="fade"
+    animationType="slide"
     transparent={true}
     visible={this.state.isModalVisible}
     >
@@ -89,7 +86,7 @@ showModal = ()=>{
         <TextInput
           style={styles.formTextInput}
           placeholder ={"First Name"}
-          maxLength ={8}
+          maxLength ={10}
           onChangeText={(text)=>{
             this.setState({
               firstName: text
@@ -99,7 +96,7 @@ showModal = ()=>{
         <TextInput
           style={styles.formTextInput}
           placeholder ={"Last Name"}
-          maxLength ={8}
+          maxLength ={10}
           onChangeText={(text)=>{
             this.setState({
               lastName: text
@@ -188,10 +185,10 @@ showModal = ()=>{
           {
             this.showModal()
           }
-        <View style={{justifyContent:'center', alignItems:'center'}}>
-          <SantaAnimation/>
-          <Text style={styles.title}>Book Santa</Text>
-        </View>
+          <View style = {styles.profileContainer} >
+            <Image source = {require('../assets/images.jpg')} style = {{width:300,height :200}}></Image>
+            <Text style = {styles.title}>Book Santa</Text>
+          </View>
         <View>
             <TextInput
             style={styles.loginBox}
